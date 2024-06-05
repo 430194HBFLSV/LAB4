@@ -1,0 +1,26 @@
+.586
+.XMM
+.MODEL flat, C
+.DATA
+k dd 0 // Определение переменной k
+res dd ? // Определение переменной res
+.CODE
+extern cfunc:near // Объявление внешней функции cfunc
+public asmfunc // Объявление asmfunc как публичной функции
+asmfunc proc C x:dword, n:dword // Объявление процедуры asmfunc с аргументами x и n
+    finit // Инициализация FPU
+asmloop: // Метка начала цикла
+    inc k // Инкремент переменной k
+    push k // Помещение значения k в стек
+    push x // Помещение значения x в стек
+    call cfunc // Вызов функции cfunc
+    fld res // Загрузка значения res в регистр FPU
+    fadd // Сложение значений на стеке и в регистре FPU
+    fstp res // Сохранение результата в переменную res
+    mov ecx, n // Загрузка значения n в регистр ecx
+    cmp k, ecx // Сравнение k с n
+    jb asmloop // Переход к метке asmloop, если k меньше n
+    fld res // Загрузка результата в стек
+    ret // Возврат из функции
+asmfunc endp // Конец процедуры
+End

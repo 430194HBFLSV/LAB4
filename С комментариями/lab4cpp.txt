@@ -1,0 +1,15 @@
+#include <iostream>
+
+extern "C" float asmfunc(float x, int n); // Объявление внешней функции asmfunc
+
+int main(int argc, char** argv) {
+	float x, n;
+	float ans;
+	std::cout << "Input x:"; // Вывод сообщения о вводе значения x
+	std::cin >> x; // Получение значения x от пользователя
+	std::cout << "Input n:"; // Вывод сообщения о вводе значения n
+	std::cin >> n; // Получение значения n от пользователя
+	ans = asmfunc(x, n); // Вызов ассемблерной функции asmfunc с аргументами x и n
+	std::cout << "Answer: " << ans; // Вывод ответа
+	return 0;
+}
